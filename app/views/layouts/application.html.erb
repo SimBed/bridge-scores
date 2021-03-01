@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BridgeScores</title>
+    <title><%= BridgeScores %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/52a30c356b.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+
+    <meta charset="utf-8">
+    <meta property="og:title" content= "Bridge Scores">
+    <meta property="og:type" content="website">
+    <!--meta property="og:image" content='<%#= image_url 'Wack_Logo.png' %>'-->
+    <!--meta property="og:image:secure_url" content='<%#= image_url 'Wack_Logo.png' %>'-->
+    <meta property="og:url" content="http://wackit.in">
+
   </head>
 
-  <body>
-    <%= yield %>
+ <body>
+    <%= render 'layouts/header' %>
+    <main>
+      <%= yield %>
+      <%= debug(params) if Rails.env.development? %>
+    </main>
   </body>
 </html>

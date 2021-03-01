@@ -1,0 +1,19 @@
+<nav class="navbar1 mb-2">
+  <ul class="navbar-nav">
+
+    <li class="nav-item home">
+      <%= link_to players_path, class: "nav-link" do %>
+        <%= image_tag("Cards.png", class: "style_icon") %>
+        <span class="link-text logo-text">Players</span>
+      <% end %>
+    </li>
+
+      <li class="nav-item">
+        <%= link_to matches_path, class: "nav-link" do %>
+          <%= image_tag("Cards.png", class: "style_icon") %>
+          <span class="link-text">Matches</span>
+        <% end %>
+      </li>
+
+  </ul>
+</nav>

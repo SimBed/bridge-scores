@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @match.date.strftime('%d/%m/%y') %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @match.score %>
+</p>
+
+
+<%= link_to 'Edit', edit_match_path(@match) %> |
+<%= link_to 'Back', matches_path %>
