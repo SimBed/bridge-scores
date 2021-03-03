@@ -16,6 +16,8 @@
     <%= form.date_select :date %>
   </div>
 
+
+
   <div class="field">
     <%= form.label :score, "score (N-S)" %>
     <%= form.number_field :score, step: 0.1 %>
@@ -23,7 +25,7 @@
 
   <div class="field">
     <%= form.label :north, "North" %>
-    <%= form.text_field :north, list: "north" %>
+    <%= form.text_field :north, list: "north", value: @player_N %>
     <!--The <datalist> element specifies a list of pre-defined options for an <input> element. https://www.w3schools.com/html/html_form_elements.asp-->
       <datalist id="north">
       <% @players.each do |player| %>
@@ -35,7 +37,7 @@
 
   <div class="field">
     <%= form.label :south, "South" %>
-    <%= form.text_field :south, list: "south" %>
+    <%= form.text_field :south, list: "south", value: @player_S %>
     <!--The <datalist> element specifies a list of pre-defined options for an <input> element. https://www.w3schools.com/html/html_form_elements.asp-->
       <datalist id="south">
       <% @players.each do |player| %>
@@ -47,7 +49,7 @@
 
   <div class="field">
     <%= form.label :east, "East" %>
-    <%= form.text_field :east, list: "east" %>
+    <%= form.text_field :east, list: "east", value: @player_E %>
     <!--The <datalist> element specifies a list of pre-defined options for an <input> element. https://www.w3schools.com/html/html_form_elements.asp-->
       <datalist id="east">
       <% @players.each do |player| %>
@@ -59,7 +61,7 @@
 
   <div class="field">
     <%= form.label :west, "West" %>
-    <%= form.text_field :west, list: "west" %>
+    <%= form.text_field :west, list: "west", value: @player_W %>
     <!--The <datalist> element specifies a list of pre-defined options for an <input> element. https://www.w3schools.com/html/html_form_elements.asp-->
       <datalist id="west">
       <% @players.each do |player| %>

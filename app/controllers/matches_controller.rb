@@ -19,6 +19,11 @@ class MatchesController < ApplicationController
   # /matches/1/edit
   def edit
     @players = Player.distinct.pluck(:alias)
+    # to populate the form
+    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[0].try(:alias)
+    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[1].try(:alias)
+    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[2].try(:alias)
+    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[3].try(:alias)
   end
 
   # POST /matches
@@ -39,16 +44,20 @@ class MatchesController < ApplicationController
   # PATCH/PUT /matches/1
   def update
       if @match.update(match_params)
+        @match.rel_player_matches[0].update(player_id: Player.find_by(alias: params[:match][:north]).id, result: (params[:match][:score].to_f * 1).round(2))
+        @match.rel_player_matches[1].update(player_id: Player.find_by(alias: params[:match][:south]).id, result: (params[:match][:score].to_f * 1).round(2))
+        @match.rel_player_matches[2].update(player_id: Player.find_by(alias: params[:match][:east]).id, result: (params[:match][:score].to_f * -1).round(2))
+        @match.rel_player_matches[3].update(player_id: Player.find_by(alias: params[:match][:west]).id, result: (params[:match][:score].to_f * -1).round(2))
         redirect_to matches_path, notice: "Match was successfully updated."
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity
       end
   end
 
   # DELETE /matches/1
   def destroy
     @match.destroy
-      redirect_to matches_path, notice: "Match was successfully destroyed."
+    redirect_to matches_path, notice: "Match was successfully destroyed."
   end
 
   private
