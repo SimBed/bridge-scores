@@ -13,30 +13,34 @@ class MatchesController < ApplicationController
   # matches/new
   def new
     @match = Match.new
-    @players = Player.distinct.pluck(:alias)
+    @player_options = Player.all.map{ |p| [ p.alias, p.id ] }
+    # default dropdown selections
+    @player_N = Player.limit(4)[0].id
+    @player_S = Player.limit(4)[1].id
+    @player_E = Player.limit(4)[2].id
+    @player_W = Player.limit(4)[3].id
   end
 
   # /matches/1/edit
   def edit
-    @players = Player.distinct.pluck(:alias)
+    @player_options = Player.all.map{ |p| [ p.alias, p.id  ] }
     # to populate the form
-    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[0].try(:alias)
-    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[1].try(:alias)
-    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[2].try(:alias)
-    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[3].try(:alias)
+    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[0].id
+    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[1].id
+    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[2].id
+    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[3].id
   end
 
   # POST /matches
   def create
     @match = Match.new(match_params)
       if @match.save
-        hash = {north: 1, south: 1, east: -1, west: -1}
-        hash.each do |key, val|
-           @match.rel_player_matches.build(player_id: Player.find_by(alias: params[:match][key]).id, result: (params[:match][:score].to_f * val).round(2)).save
+        score_Converter = {north: 1, south: 1, east: -1, west: -1}.each do |key, val|
+           @match.rel_player_matches.build(player_id: params[:match][key], result: (params[:match][:score].to_f * val).round(2)).save
         end
         redirect_to matches_path, notice: "Match was successfully created."
       else
-        @players = Player.distinct.pluck(:alias)
+        @player_options = Player.all.map{ |p| [ p.id, p.alias ] }
         render :new, status: :unprocessable_entity
       end
   end
@@ -44,10 +48,10 @@ class MatchesController < ApplicationController
   # PATCH/PUT /matches/1
   def update
       if @match.update(match_params)
-        @match.rel_player_matches[0].update(player_id: Player.find_by(alias: params[:match][:north]).id, result: (params[:match][:score].to_f * 1).round(2))
-        @match.rel_player_matches[1].update(player_id: Player.find_by(alias: params[:match][:south]).id, result: (params[:match][:score].to_f * 1).round(2))
-        @match.rel_player_matches[2].update(player_id: Player.find_by(alias: params[:match][:east]).id, result: (params[:match][:score].to_f * -1).round(2))
-        @match.rel_player_matches[3].update(player_id: Player.find_by(alias: params[:match][:west]).id, result: (params[:match][:score].to_f * -1).round(2))
+        @match.rel_player_matches[0].update(player_id: params[:match][:north], result: (params[:match][:score].to_f * 1).round(2))
+        @match.rel_player_matches[1].update(player_id: params[:match][:south], result: (params[:match][:score].to_f * 1).round(2))
+        @match.rel_player_matches[2].update(player_id: params[:match][:east], result: (params[:match][:score].to_f * -1).round(2))
+        @match.rel_player_matches[3].update(player_id: params[:match][:west], result: (params[:match][:score].to_f * -1).round(2))
         redirect_to matches_path, notice: "Match was successfully updated."
       else
         render :edit, status: :unprocessable_entity
@@ -69,7 +73,4 @@ class MatchesController < ApplicationController
       params.require(:match).permit(:date, :score)
     end
 
-    def player_match_rel_params
-      params.require(:match).permit(:north, :south, :east, :west)
-    end
 end
