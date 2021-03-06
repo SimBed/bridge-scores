@@ -1,9 +1,19 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+player1:
+  name: Andy
+  alias: thecactus
 
-one:
-  name: MyString
-  alias: MyString
+player2:
+  name: Hazel
+  alias: pinner
 
-two:
-  name: MyString
-  alias: MyString
+player3:
+  name: Kevin
+  alias: kdskds
+
+player4:
+  name: Daniel
+  alias: SimBed
+
+player5:
+  name: Martin
+  alias: thefox     

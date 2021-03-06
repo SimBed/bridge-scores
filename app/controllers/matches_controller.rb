@@ -25,14 +25,15 @@ class MatchesController < ApplicationController
   def edit
     @player_options = Player.all.map{ |p| [ p.alias, p.id  ] }
     # to populate the form
-    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[0].id
-    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[1].id
-    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[2].id
-    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:@match.id,player_id:p.id).result == @match.score ? 0 : 1 }[3].id
+    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[0].id
+    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[1].id
+    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[2].id
+    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[3].id
   end
 
   # POST /matches
   def create
+
     @match = Match.new(match_params)
       if @match.save
         score_Converter = {north: 1, south: 1, east: -1, west: -1}.each do |key, val|

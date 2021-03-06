@@ -1,11 +1,40 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+rel1:
+  #https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player1) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match1) %>
+  result: -27.2
 
-one:
-  player_id: 1
-  match_id: 1
-  result: 1.5
+rel2:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player5) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match1) %>
+  result: -27.2
 
-two:
-  player_id: 1
-  match_id: 1
-  result: 1.5
+rel3:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player3) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match1) %>
+  result: 27.2
+
+rel4:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player4) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match1) %>
+  result: 27.2
+
+rel5:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player1) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match2) %>
+  result: 5.5
+
+rel6:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player2) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match2) %>
+  result: 5.5
+
+rel7:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player3) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match2) %>
+  result: -5.5
+
+rel8:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player4) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match2) %>
+  result: -5.5

@@ -36,7 +36,7 @@ class PlayersController < ApplicationController
   # PATCH/PUT /players/1
   def update
       if @player.update(player_params)
-        format.html redirect_to @player, notice: "Player was successfully updated."
+        redirect_to players_path, notice: "Player was successfully updated."
         else
         render :edit, status: :unprocessable_entity
       end

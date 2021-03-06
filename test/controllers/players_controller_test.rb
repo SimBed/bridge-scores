@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PlayersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @player = players(:one)
+    @player = players(:player1)
   end
 
   test "should get index" do
@@ -17,10 +17,9 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create player" do
     assert_difference('Player.count') do
-      post players_url, params: { player: { alias: @player.alias, name: @player.name } }
+      post players_url, params: { player: { alias: "Muffin", name: "David" } }
     end
-
-    assert_redirected_to player_url(Player.last)
+    assert_redirected_to players_url
   end
 
   test "should show player" do
@@ -35,14 +34,13 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update player" do
     patch player_url(@player), params: { player: { alias: @player.alias, name: @player.name } }
-    assert_redirected_to player_url(@player)
+    assert_redirected_to players_url
   end
 
   test "should destroy player" do
     assert_difference('Player.count', -1) do
       delete player_url(@player)
     end
-
     assert_redirected_to players_url
   end
 end

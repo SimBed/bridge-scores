@@ -2,7 +2,7 @@ class Player < ApplicationRecord
   has_many :rel_player_matches, dependent: :destroy
   has_many :matches, through: :rel_player_matches
   validates :name,  presence: true, length: { maximum: 20 }
-  validates :alias,  presence: true, length: { maximum: 20 }
+  validates :alias,  presence: true, length: { maximum: 20 }, uniqueness: { case_sensitive: false }
 
   def score
     score = 0
@@ -21,4 +21,7 @@ class Player < ApplicationRecord
     scores.sort_by { |i| -i }.index(self.score) + 1
   end
 
+  def match_result(match)
+    RelPlayerMatch.find_by(match_id: match.id, player_id: self.id).result
+  end
 end
