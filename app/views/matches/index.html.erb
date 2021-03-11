@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h3>Matches</h3>
+<h5>Matches</h5>
 
 <table>
   <thead>
@@ -11,7 +11,7 @@
       <th>N-S</th>
       <th>E-W</th>
       <th>E-W</th>
-      <th colspan="6"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -20,14 +20,19 @@
       <tr>
         <td><%= match.date.strftime('%d/%m/%y') %></td>
         <td><%= match.score %></td>
-        <% (0..3).each do |i| %>
+        <% %w[north south east west].each do |seat| %>
+          <td><%= match.player(seat) %></td>
+        <% end %>
+
+        <%# (0..3).each do |i| %>
         <!-- re-engineering who played in which seat
         would be easier to retain the seats in the Match table. Note booleans fail as a sort_by argument-->
-          <td><%= match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:match.id,player_id:p.id).result == match.score ? 0 : 1 }[i].try(:name) %></td>
-        <% end %>
+          <!--td><%#= match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:match.id,player_id:p.id).result == match.score ? 0 : 1 }[i].try(:name) %></td-->
+        <%# end %>
+
         <% if params[:admin] == "1" %>
-          <td><%= link_to 'Edit', edit_match_path(match) %></td>
-          <td><%= link_to 'Delete', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_match_path(match) %></td>
+          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>

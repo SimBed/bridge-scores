@@ -16,6 +16,9 @@ body {
     padding-right: 15px;
     padding-left: 15px;
 	}
+  h5 {
+    font-size: 1.75rem;
+  }
  }
 
  img.style_icon {
@@ -79,3 +82,14 @@ div.actions {
 
 label {
   display: block; }
+
+img.edit_icon {
+  display: block;
+  width: 1.0rem;
+  height: 1.0rem;
+  margin: auto;
+}
+
+th {
+  padding: 0 5px 5px;
+}

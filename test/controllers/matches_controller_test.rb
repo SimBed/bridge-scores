@@ -125,4 +125,17 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 2, players(:player5).position
   end
 
+  test "player's seat correct" do
+    post matches_path, params: @match_new1
+    assert_equal players(:player1).name, Match.order(:created_at).last.player("north")
+    post matches_path, params: @match_new2
+    assert_equal players(:player5).name, Match.order(:created_at).last.player("east")
+  end
+
+  test "player's seat correct after deletion" do
+    post matches_path, params: @match_new1
+    delete player_url(players(:player2))
+    assert_equal '----', Match.order(:created_at).last.player("south")
+    assert_equal players(:player4).name, Match.order(:created_at).last.player("west")
+  end
 end

@@ -7,7 +7,8 @@ class Player < ApplicationRecord
   def score
     score = 0
     rel_player_matches.each do |r|
-      score = (score + r.result)
+      #score = (score + r.result)
+      score = score + Match.find(r.match_id).score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
     end
     score.round(2)
   end
@@ -21,7 +22,10 @@ class Player < ApplicationRecord
     scores.sort_by { |i| -i }.index(self.score) + 1
   end
 
+  # not used
   def match_result(match)
-    RelPlayerMatch.find_by(match_id: match.id, player_id: self.id).result
+    rel = RelPlayerMatch.
+    match.score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
+    #RelPlayerMatch.find_by(match_id: match.id, player_id: self.id).result
   end
 end

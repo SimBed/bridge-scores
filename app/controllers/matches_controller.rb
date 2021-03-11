@@ -15,29 +15,35 @@ class MatchesController < ApplicationController
     @match = Match.new
     @player_options = Player.all.map{ |p| [ p.alias, p.id ] }
     # default dropdown selections
-    @player_N = Player.limit(4)[0].id
-    @player_S = Player.limit(4)[1].id
-    @player_E = Player.limit(4)[2].id
-    @player_W = Player.limit(4)[3].id
+    # the & before the method checks for nil before calling the method (returning nil if nil)
+    # protects against failure if there are less than 4 players for example if one has been deleted
+    @player_N = Player.limit(4)[0]&.id
+    @player_S = Player.limit(4)[1]&.id
+    @player_E = Player.limit(4)[2]&.id
+    @player_W = Player.limit(4)[3]&.id
   end
 
   # /matches/1/edit
   def edit
-    @player_options = Player.all.map{ |p| [ p.alias, p.id  ] }
+    @player_options = Player.all.map{ |p| [p.alias, p.id] } + [['player removed', 'x']]
     # to populate the form
-    @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[0].id
-    @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[1].id
-    @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[2].id
-    @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[3].id
+    @player_N = @match.rel_player_matches.find_by(seat: 'north')&.player_id || 'x'
+    @player_S = @match.rel_player_matches.find_by(seat: 'south')&.player_id || 'x'
+    @player_E = @match.rel_player_matches.find_by(seat: 'east')&.player_id || 'x'
+    @player_W = @match.rel_player_matches.find_by(seat: 'west')&.player_id || 'x'
+
+    # @player_N=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[0].id
+    # @player_S=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[1].id
+    # @player_E=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[2].id
+    # @player_W=@match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id: @match.id, player_id: p.id).result == @match.score ? 0 : 1 }[3].id
   end
 
   # POST /matches
   def create
-
     @match = Match.new(match_params)
       if @match.save
-        score_Converter = {north: 1, south: 1, east: -1, west: -1}.each do |key, val|
-           @match.rel_player_matches.build(player_id: params[:match][key], result: (params[:match][:score].to_f * val).round(2)).save
+        %w[north south east west].each do |seat|
+           @match.rel_player_matches.build(player_id: params[:match][seat.to_sym], seat: seat).save
         end
         redirect_to matches_path, notice: "Match was successfully created."
       else
@@ -49,11 +55,14 @@ class MatchesController < ApplicationController
   # PATCH/PUT /matches/1
   def update
       if @match.update(match_params)
-        @match.rel_player_matches[0].update(player_id: params[:match][:north], result: (params[:match][:score].to_f * 1).round(2))
-        @match.rel_player_matches[1].update(player_id: params[:match][:south], result: (params[:match][:score].to_f * 1).round(2))
-        @match.rel_player_matches[2].update(player_id: params[:match][:east], result: (params[:match][:score].to_f * -1).round(2))
-        @match.rel_player_matches[3].update(player_id: params[:match][:west], result: (params[:match][:score].to_f * -1).round(2))
-        redirect_to matches_path, notice: "Match was successfully updated."
+        %w[north south east west].each do |seat|
+          if @match.rel_player_matches.find_by(seat: seat)
+            @match.rel_player_matches.find_by(seat: seat).update(player_id: params[:match][seat.to_sym])
+          elsif params[:match][seat.to_sym] != 'x'
+            @match.rel_player_matches.build(player_id: params[:match][seat.to_sym], seat: seat).save
+          end
+        end
+          redirect_to matches_path, notice: "Match was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -62,7 +71,7 @@ class MatchesController < ApplicationController
   # DELETE /matches/1
   def destroy
     @match.destroy
-    redirect_to matches_path, notice: "Match was successfully destroyed."
+    redirect_to matches_path, notice: "Match was successfully deleted."
   end
 
   private
