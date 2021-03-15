@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
 
   # /players/1
   def show
-    @matches = @player.matches
+    @matches = @player.matches.order_by_date
   end
 
   # /players/new
