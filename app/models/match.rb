@@ -3,6 +3,7 @@ class Match < ApplicationRecord
   has_many :players, through: :rel_player_matches
   validates :date, presence: true
   validates :score, presence: true, numericality: true
+  scope :order_by_date, -> { order(date: :desc) }
 
   # return the name of the player who sat in the given seat for the match
   def player(seat)

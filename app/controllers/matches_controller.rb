@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
 
   # /matches
   def index
-    @matches = Match.all
+    @matches = Match.all.order_by_date
   end
 
   # /matches/1
