@@ -11,6 +11,7 @@
       <th>N-S</th>
       <th>E-W</th>
       <th>E-W</th>
+      <th>League</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -23,6 +24,7 @@
         <% %w[north south east west].each do |seat| %>
           <td><%= match.player(seat) %></td>
         <% end %>
+        <td><%= match.league.name %>
 
         <%# (0..3).each do |i| %>
         <!-- re-engineering who played in which seat

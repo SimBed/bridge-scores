@@ -1,28 +1,21 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
-  # /players
   def index
-    # position is an instance method of class Player defined in player.rb
-    # doesn't seem to be a way to sort by position at the database level (without including score as a column in the database)
-    @players = Player.all.to_a.sort_by(&:position)
+    @players = Player.order_by_name
   end
 
-  # /players/1
   def show
     @matches = @player.matches.order_by_date
   end
 
-  # /players/new
   def new
     @player = Player.new
   end
 
-  # /players/1/edit
   def edit
   end
 
-  # POST /players
   def create
     @player = Player.new(player_params)
 
@@ -33,7 +26,6 @@ class PlayersController < ApplicationController
       end
   end
 
-  # PATCH/PUT /players/1
   def update
       if @player.update(player_params)
         redirect_to players_path, notice: "Player was successfully updated."
@@ -42,7 +34,6 @@ class PlayersController < ApplicationController
       end
   end
 
-  # DELETE /players/1
   def destroy
     @player.destroy
     redirect_to players_path, notice: "Player was successfully removed."

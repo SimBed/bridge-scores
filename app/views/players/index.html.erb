@@ -6,9 +6,10 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th class="pr-3 pr-md-5">Alias</th>
       <th class="pr-3 pr-md-5">Matches</th>
-      <th class="pr-3 pr-md-5">Score</th>
-      <th>Position</th>
+      <th class="pr-3 pr-md-5">First Match</th>
+      <th class="pr-3 pr-md-5">Last Match</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -16,10 +17,11 @@
   <tbody>
     <% @players.each do |player| %>
       <tr>
-        <td><%= link_to player.alias, player %></td>
+        <td><%= link_to player.name, player %></td>
+        <td><%= player.alias %></td>
         <td><%= player.matches.count %></td>
-        <td><%= player.score %></td>
-        <td><%= player.position %></td>
+        <td><%= player.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td>
+        <td><%= player.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td>
         <% if params[:admin] == "1" %>
           <td><%= link_to 'Edit', edit_player_path(player) %></td>
           <td><%= link_to 'Remove', player, method: :delete, data: { confirm: 'Are you sure?' } %></td>

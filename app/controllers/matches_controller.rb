@@ -14,6 +14,7 @@ class MatchesController < ApplicationController
   def new
     @match = Match.new
     @player_options = Player.all.map{ |p| [ p.alias, p.id ] }
+    @league_options = League.all.map{ |l| [ l.name, l.id ] }
     # default dropdown selections
     # the & before the method checks for nil before calling the method (returning nil if nil)
     # protects against failure if there are less than 4 players for example if one has been deleted
@@ -26,6 +27,7 @@ class MatchesController < ApplicationController
   # /matches/1/edit
   def edit
     @player_options = Player.all.map{ |p| [p.alias, p.id] } + [['player removed', 'x']]
+    @league_options = League.all.map{ |l| [ l.name, l.id ] }
     # to populate the form
     @player_N = @match.rel_player_matches.find_by(seat: 'north')&.player_id || 'x'
     @player_S = @match.rel_player_matches.find_by(seat: 'south')&.player_id || 'x'
@@ -48,6 +50,7 @@ class MatchesController < ApplicationController
         redirect_to matches_path, notice: "Match was successfully created."
       else
         @player_options = Player.all.map{ |p| [ p.id, p.alias ] }
+        @league_options = League.all.map{ |l| [ l.name, l.id ] }
         render :new, status: :unprocessable_entity
       end
   end
@@ -80,7 +83,7 @@ class MatchesController < ApplicationController
     end
 
     def match_params
-      params.require(:match).permit(:date, :score)
+      params.require(:match).permit(:date, :score, :league_id)
     end
 
 end

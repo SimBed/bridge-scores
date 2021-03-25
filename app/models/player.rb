@@ -3,29 +3,38 @@ class Player < ApplicationRecord
   has_many :matches, through: :rel_player_matches
   validates :name,  presence: true, length: { maximum: 20 }
   validates :alias,  presence: true, length: { maximum: 20 }, uniqueness: { case_sensitive: false }
+  scope :order_by_name, -> { order(name: :asc) }
 
-  def score
+  def leagues
+    League.joins("INNER JOIN matches on leagues.id = matches.league_id
+         INNER JOIN rel_player_matches on matches.id = rel_player_matches.match_id
+         INNER JOIN players on rel_player_matches.player_id=players.id")
+         .where("players.id=#{self.id}").distinct
+  end
+
+  def league_matches(league)
+    self.matches.where("league_id=#{league.id}")
+  end
+
+  def score(league)
     score = 0
-    rel_player_matches.each do |r|
-      #score = (score + r.result)
+    rels_to_league = rel_player_matches.joins("INNER JOIN matches on rel_player_matches.match_id=matches.id")
+          .where("league_id=#{league.id}")
+    rels_to_league.each do |r|
       score = score + Match.find(r.match_id).score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
     end
     score.round(2)
   end
 
-  def position
-    scores = []
-    Player.all.each do |p|
-      scores << p.score
+  def position(league, text = false)
+    player_score = self.score(league)
+    league_scores = league.scores
+    player_position = league_scores.index(player_score) + 1
+    if text
+      player_position.to_s + " " + "=" * (league_scores.count(player_score) - 1)
+    else
+      player_position
     end
-    # alternative to reverse
-    scores.sort_by { |i| -i }.index(self.score) + 1
   end
 
-  # not used
-  def match_result(match)
-    rel = RelPlayerMatch.
-    match.score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
-    #RelPlayerMatch.find_by(match_id: match.id, player_id: self.id).result
-  end
 end

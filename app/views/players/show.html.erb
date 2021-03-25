@@ -24,6 +24,7 @@
       <th>N-S</th>
       <th>E-W</th>
       <th>E-W</th>
+      <th>League</th>
     </tr>
   </thead>
 
@@ -35,6 +36,7 @@
         <% (0..3).each do |i| %>
           <td><%= match.players[i].try(:name) %></td>
         <% end %>
+        <td><%= match.league.name %></td>
       </tr>
     <% end %>
   </tbody>

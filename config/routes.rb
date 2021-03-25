@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :leagues
   resources :matches
   resources :players
   root 'matches#index'
