@@ -27,14 +27,17 @@ class Player < ApplicationRecord
   end
 
   def position(league, text = false)
-    player_score = self.score(league)
-    league_scores = league.scores
     player_position = league_scores.index(player_score) + 1
     if text
       player_position.to_s + " " + "=" * (league_scores.count(player_score) - 1)
     else
       player_position
     end
+  end
+
+  def match_score(match)
+    r = RelPlayerMatch.find_by(match_id: match.id, player_id: self.id)
+    match.score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
   end
 
 end

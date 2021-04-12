@@ -20,8 +20,10 @@
         <td><%= link_to league.name, league %></td>
         <td><%= league.matches.count %></td>
         <td><%= league.players.count %></td>
-        <td><%= league.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td>
-        <td><%= league.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td>
+        <td><%= time_ago_in_words(league.matches.order_by_date.last&.date) + ' ago' unless league.matches.order_by_date.last&.date.blank? %></td>
+        <td><%= time_ago_in_words(league.matches.order_by_date.first&.date) + ' ago' unless league.matches.order_by_date.first&.date.blank? %></td>
+        <!--td><%#= league.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
+        <!--td><%#= league.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
         <td><%= link_to 'Show', league %></td>
       <% if params[:admin] == "1" %>
         <td><%= link_to 'Edit', edit_league_path(league) %></td>
