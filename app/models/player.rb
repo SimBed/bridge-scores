@@ -27,6 +27,9 @@ class Player < ApplicationRecord
   end
 
   def position(league, text = false)
+
+    player_score = self.score(league)
+    league_scores = league.scores
     player_position = league_scores.index(player_score) + 1
     if text
       player_position.to_s + " " + "=" * (league_scores.count(player_score) - 1)

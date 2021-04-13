@@ -10,16 +10,25 @@ body {
   margin: 0.3em;
 }
 
+td.ago {
+  font-size: 0.4rem;
+}
+
 @media screen and (min-width: 600px) {
 	body {
-    font-size: 1.5em;
+    font-size: 1.3rem;
     padding-right: 15px;
     padding-left: 15px;
 	}
   h5 {
     font-size: 1.75rem;
   }
+  td.ago {
+    font-size: 0.8rem;
+  }
  }
+
+
 
  img.style_icon {
   /*display: block;*/

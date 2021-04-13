@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h5>Players</h5>
 
 <table>
@@ -9,7 +7,7 @@
       <th class="pr-3 pr-md-5">Alias</th>
       <th class="pr-3 pr-md-5">Matches</th>
       <th class="pr-3 pr-md-5">First Match</th>
-      <th class="pr-3 pr-md-5">Last Match</th>
+      <th>Last Match</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -20,19 +18,21 @@
         <td><%= link_to player.name, player %></td>
         <td><%= player.alias %></td>
         <td><%= player.matches.count %></td>
-        <td><%= time_ago_in_words(player.matches.order_by_date.last&.date) + ' ago' unless player.matches.order_by_date.last&.date.blank? %></td>
-        <td><%= time_ago_in_words(player.matches.order_by_date.first&.date) + ' ago' unless player.matches.order_by_date.first&.date.blank? %></td>
+        <td class="ago"><%= time_ago_in_words(player.matches.order_by_date.last&.date) + ' ago' unless player.matches.order_by_date.last&.date.blank? %></td>
+        <td class="ago"><%= time_ago_in_words(player.matches.order_by_date.first&.date) + ' ago' unless player.matches.order_by_date.first&.date.blank? %></td>
         <!--td><%#= player.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
         <!-- td><%#= player.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
-        <% if params[:admin] == "1" %>
-          <td><%= link_to 'Edit', edit_player_path(player) %></td>
-          <td><%= link_to 'Remove', player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if user_signed_in? %>
+          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_player_path(player) %></td>
+          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
+
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Player', new_player_path %>
+<% if user_signed_in? %>
+  <%= link_to 'New Player', new_player_path %>
+<% end %>
