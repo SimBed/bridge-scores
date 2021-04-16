@@ -1,4 +1,5 @@
 class LeaguesController < ApplicationController
+  before_action :admin_user, only: %i[ new create edit update destroy ]
   before_action :set_league, only: %i[ show edit update destroy ]
 
   def index

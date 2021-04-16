@@ -34,7 +34,7 @@
         <% (0..3).each do |i| %>
           <td><%= match.players[i].try(:name) %></td>
         <% end %>
-        <td><%= match.league.name %></td>
+        <td><%= link_to match.league.name, match.league %></td>
       </tr>
     <% end %>
   </tbody>

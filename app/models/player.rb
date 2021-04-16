@@ -43,4 +43,11 @@ class Player < ApplicationRecord
     match.score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
   end
 
+  def partner(match)
+    partner_code = { 'north':'south', 'south':'north', 'east':'west', 'west':'east' }
+    r = RelPlayerMatch.find_by(match_id: match.id, player_id: self.id)
+    partner_id = RelPlayerMatch.find_by(match_id: match.id, seat: partner_code[r.seat.to_sym]).player_id
+    Player.find(partner_id).name
+  end
+
 end

@@ -35,10 +35,11 @@
   </tbody>
 </table>
 
-<% if params[:admin] == "1" %>
-<%= link_to 'Edit', edit_league_path(@league) %> |
+<% if user_signed_in? %>
+  <%= link_to 'Edit', edit_league_path(@league) %>
 <% end %>
-<%= link_to 'Back', leagues_path %>
+<!-- removed back after creating additional link from matches -->
+<%#= link_to 'Back', leagues_path %>
 
 <script>
 	var userSelection = document.getElementById("show_pages");

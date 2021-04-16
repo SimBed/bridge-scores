@@ -1,4 +1,7 @@
 class MatchesController < ApplicationController
+  # %i[ ] # Non-interpolated Array of symbols, separated by whitespace (see ruby docs on literals)
+  # equiv to [:edit, :update, :destroy]
+  before_action :admin_user, only: %i[ edit update destroy ]
   before_action :set_match, only: %i[ show edit update destroy ]
 
   # /matches

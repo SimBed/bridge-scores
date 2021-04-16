@@ -22,7 +22,7 @@
         <% %w[north south east west].each do |seat| %>
           <td><%= match.player(seat) %></td>
         <% end %>
-        <td><%= match.league.name %>
+        <td><%= link_to match.league.name, match.league %> </td>
 
         <%# (0..3).each do |i| %>
         <!-- re-engineering who played in which seat
@@ -41,6 +41,5 @@
 
 <br>
 
-<% if user_signed_in? %>
+<!-- allow non-admin to add match -->
   <%= link_to 'New Match', new_match_path %>
-<% end %>
