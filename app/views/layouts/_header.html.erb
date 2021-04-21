@@ -1,9 +1,12 @@
+<!-- animation with greensock -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+
 <nav class="navbar1 mb-2">
   <ul class="navbar-nav">
 
     <li class="nav-item home">
       <%= link_to players_path, class: "nav-link" do %>
-        <%= image_tag("Cards.png", class: "style_icon") %>
+        <%= image_tag("Cards.png", class: "style_icon", id: "testid") %>
         <span class="link-text logo-text">Players</span>
       <% end %>
     </li>
@@ -46,3 +49,6 @@
   </ul>
 
 </nav>
+<script>
+  gsap.from(".style_icon", {duration: 0.8, x: 150, stagger: 0.3});
+</script>
