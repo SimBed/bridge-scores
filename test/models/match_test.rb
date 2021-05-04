@@ -2,7 +2,9 @@ require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
   def setup
-    @match = Match.new(date: "2021-03-10", score: -27.2)
+    @league1 = leagues(:league1)
+    @match = @league1.matches.build(date: "2021-03-10", score: -27.2)
+    @match3 = matches(:match3)
   end
 
   test "should be valid" do
@@ -24,8 +26,16 @@ class MatchTest < ActiveSupport::TestCase
     assert_not @match.valid?
   end
 
-  test "match count" do
-     assert_equal 2, Match.count
-   end
+  test "league should be present" do
+    @match.league_id = nil
+    assert_not @match.valid?
+  end
+
+  test "player method" do
+    assert_equal "Jo", @match3.player("north")
+    assert_equal "Andy", @match3.player("south")
+    assert_equal "Kevin", @match3.player("east")
+    assert_equal "Martin", @match3.player("west")
+  end
 
 end

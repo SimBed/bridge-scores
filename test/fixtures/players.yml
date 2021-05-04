@@ -16,4 +16,8 @@ player4:
 
 player5:
   name: Martin
-  alias: thefox     
+  alias: thefox
+
+player6:
+  name: Jo
+  alias: Jopin     

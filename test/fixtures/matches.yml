@@ -1,7 +1,19 @@
 match1:
   date: 2021-02-28
   score: -27.2
+  league_id: <%= ActiveRecord::FixtureSet.identify(:league1) %>
 
 match2:
   date: 2021-03-05
   score: 5.5
+  league_id: <%= ActiveRecord::FixtureSet.identify(:league1) %>
+
+match3:
+  date: 2021-04-01
+  score: 10
+  league_id: <%= ActiveRecord::FixtureSet.identify(:league2) %>
+
+match4:
+  date: 2021-04-07
+  score: -3
+  league_id: <%= ActiveRecord::FixtureSet.identify(:league2) %>

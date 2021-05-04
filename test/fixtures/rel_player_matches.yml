@@ -46,3 +46,51 @@ rel8:
   match_id: <%= ActiveRecord::FixtureSet.identify(:match2) %>
 #  result: -5.5
   seat: west
+
+rel9:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player1) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match3) %>
+#  result: 10
+  seat: south
+
+rel10:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player6) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match3) %>
+#  result: 10
+  seat: north
+
+rel11:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player3) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match3) %>
+#  result: -10
+  seat: east
+
+rel12:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player5) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match3) %>
+#  result: -10
+  seat: west
+
+rel13:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player6) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match4) %>
+#  result: -3
+  seat: north
+
+rel14:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player5) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match4) %>
+#  result: -3
+  seat: south
+
+rel15:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player4) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match4) %>
+#  result: 3
+  seat: east
+
+rel16:
+  player_id: <%= ActiveRecord::FixtureSet.identify(:player1) %>
+  match_id: <%= ActiveRecord::FixtureSet.identify(:match4) %>
+#  result: 3
+  seat: west

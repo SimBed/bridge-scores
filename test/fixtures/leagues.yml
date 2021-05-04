@@ -1,7 +1,5 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+league1:
+  name: premier
 
-one:
-  name: MyString1
-
-two:
-  name: MyString2
+league2:
+  name: champions
