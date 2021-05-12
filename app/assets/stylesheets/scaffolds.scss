@@ -1,6 +1,10 @@
 @import "bootstrap";
 
+/* mixins, variables, etc. */
 $font-stack:  Montserrat, Arial;
+$gray-light:  #d8d8d8; /*medium grey*/
+$gray-darker:  #808080;
+$gray-darkest: #474444;
 
 body {
   padding-top: 20px;
@@ -28,8 +32,6 @@ td.ago {
   }
  }
 
-
-
  img.style_icon {
   /*display: block;*/
   width: 1.8rem;
@@ -44,8 +46,8 @@ pre {
 a {
   color: #000; }
 
-a:visited {
-  color: #666; }
+// a:visited {
+//   color: #666; }
 
 a:hover {
   color: #fff;
@@ -101,4 +103,25 @@ img.edit_icon {
 
 th {
   padding: 0 5px 5px;
+}
+
+th .current{
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  color: $gray-darker
+ }
+
+th .notcurrent{
+border-bottom: 1px dashed $gray-darker;
+ }
+
+th .asc {
+/*background-image: url(/images/up_arrow.gif);*/
+background-image: image-url('up_arrow.gif');
+}
+
+th .desc {
+/*background-image: url(/images/down_arrow.gif);*/
+background-image: image-url('down_arrow.gif');
 }

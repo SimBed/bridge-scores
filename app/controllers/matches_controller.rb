@@ -1,4 +1,6 @@
 class MatchesController < ApplicationController
+  helper_method :sort_column, :sort_direction
+
   # %i[ ] # Non-interpolated Array of symbols, separated by whitespace (see ruby docs on literals)
   # equiv to [:edit, :update, :destroy]
   before_action :admin_user, only: %i[ edit update destroy ]
@@ -6,7 +8,9 @@ class MatchesController < ApplicationController
 
   # /matches
   def index
-    @matches = Match.all.order_by_date
+    # @matches = Match.all.order_by_date
+    # sort_column and sort_direction are methods (defined below) that sanaitize the params
+    @matches = Match.order(sort_column + " " + sort_direction)
   end
 
   # /matches/1
@@ -87,6 +91,16 @@ class MatchesController < ApplicationController
 
     def match_params
       params.require(:match).permit(:date, :score, :league_id)
+    end
+
+    def sort_column
+      # Sanitizing the search options, so only items specified in the list can get through
+      %w[date score league_id].include?(params[:sort]) ? params[:sort] : "date"
+    end
+
+    def sort_direction
+       #additional code provides robust sanitisation of what goes into the order clause
+       %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 
 end
