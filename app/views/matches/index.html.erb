@@ -4,13 +4,13 @@
   <thead>
     <tr>
       <!-- sortable is a method in helpers/application_helpers providing a link_to with sor and direction params-->
-      <th><%= sortable("date") %></th>
-      <th class="pr-2 pr-md-5"><%= sortable("score") %> <small>(N-S)</small></th>
+      <th><%= sortable(column: "date") %></th>
+      <th class="pr-2 pr-md-5"><%= sortable(column: "score") %> <small>(N-S)</small></th>
       <th>N-S</th>
       <th>N-S</th>
       <th>E-W</th>
       <th>E-W</th>
-      <th><%= sortable("league_id", "League") %></th>
+      <th><%= sortable(column: "league_id", coltitle: "League") %></th>
       <th colspan="2"></th>
     </tr>
   </thead>

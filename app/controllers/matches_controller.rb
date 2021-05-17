@@ -10,7 +10,7 @@ class MatchesController < ApplicationController
   def index
     # @matches = Match.all.order_by_date
     # sort_column and sort_direction are methods (defined below) that sanaitize the params
-    @matches = Match.order(sort_column + " " + sort_direction)
+    @matches = Match.order(sort_column(nil) + " " + sort_direction)
   end
 
   # /matches/1
@@ -93,7 +93,7 @@ class MatchesController < ApplicationController
       params.require(:match).permit(:date, :score, :league_id)
     end
 
-    def sort_column
+    def sort_column(view)
       # Sanitizing the search options, so only items specified in the list can get through
       %w[date score league_id].include?(params[:sort]) ? params[:sort] : "date"
     end

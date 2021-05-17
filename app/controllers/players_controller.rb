@@ -5,8 +5,8 @@ class PlayersController < ApplicationController
 
   def index
     # @players = Player.order_by_name
-    if Player.column_names.include?(sort_column)
-      @players = Player.order(sort_column + " " + sort_direction)
+    if Player.column_names.include?(sort_column('index'))
+      @players = Player.order(sort_column('index') + " " + sort_direction)
     else
       @players = Player.all.to_a.sort_by { |p| p.matches.count }
       @players.reverse! if sort_direction == 'desc'
@@ -15,18 +15,19 @@ class PlayersController < ApplicationController
 
   def show
     # @matches = @player.matches.order_by_date
-    case sort_column
-
+    case sort_column('show')
     when 'date'
-    # if Player.column_names.include?(sort_column)
-    @matches = @player.matches.order(sort_column + " " + sort_direction)
-  when 'score'
-    @matches = @player.matches.to_a.sort_by { |m| m.score }
-    @matches.reverse! if sort_direction == 'desc'
-  else
-    @matches = @player.matches.order_by_date
+      # if Player.column_names.include?(sort_column)
+      @matches = @player.matches.order(sort_column('show') + " " + sort_direction)
+    when 'league'
+      @matches = @player.matches.order('league_id' + " " + sort_direction)
+    when 'score'
+      @matches = @player.matches.to_a.sort_by { |m| @player.match_score(m) }
+      @matches.reverse! if sort_direction == 'desc'
+    else
+      @matches = @player.matches.order_by_date
+    end
   end
-end
 
   def new
     @player = Player.new
@@ -70,9 +71,14 @@ end
       params.require(:player).permit(:name, :alias)
     end
 
-    def sort_column
+    def sort_column(view)
       # Sanitizing the search options, so only items specified in the list can get through
-      %w[name alias matches date score league].include?(params[:sort]) ? params[:sort] : "name"
+      case view
+      when 'index'
+        %w[name alias matches].include?(params[:sort]) ? params[:sort] : "name"
+      when 'show'
+        %w[date score league].include?(params[:sort]) ? params[:sort] : "date"
+      end
     end
 
     def sort_direction

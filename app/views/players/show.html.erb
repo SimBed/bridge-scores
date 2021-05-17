@@ -16,13 +16,13 @@
 <table>
   <thead>
     <tr>
-      <th><%= sortable("date") %></th>
-      <th><%= sortable("score") %><small> (player)</small></th>
+      <th><%= sortable(column: "date", view: "show") %></th>
+      <th><%= sortable(column: "score", view: "show") %><small> (player)</small></th>
       <th>N-S</th>
       <th>N-S</th>
       <th>E-W</th>
       <th>E-W</th>
-      <th><%= sortable("league") %></th>
+      <th><%= sortable(column: "league", view: "show") %></th>
     </tr>
   </thead>
 
