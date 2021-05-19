@@ -1,0 +1,15 @@
+# rubocop configuration file added to control some undesirable offenses
+# https://stackoverflow.com/questions/45157029/carriage-return-character-missing-style-endofline-in-ruby-on-rails
+# and then
+# https://stackoverflow.com/questions/46098050/rubocop-warning-style-endofline-has-the-wrong-namespace
+# https://stackoverflow.com/questions/38325533/disable-frozen-string-literal-comment-checking
+require: rubocop-rails
+AllCops:
+    NewCops: enable
+Layout/EndOfLine:
+    EnforcedStyle: lf
+# toggle between lf & crlf depending on which quirk arises
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
