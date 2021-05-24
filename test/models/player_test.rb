@@ -76,7 +76,7 @@ class PlayerTest < ActiveSupport::TestCase
   end
 
   test 'partner' do
-    assert_equal 'Kevin', @player4.partner(@match1)
-    assert_equal 'Andy', @player6.partner(@match3)
+    assert_equal 'kdskds', @player4.partner(@match1)
+    assert_equal 'thecactus', @player6.partner(@match3)
   end
 end

@@ -15,13 +15,15 @@ class PlayersController < ApplicationController
   end
 
   def show
-    # @matches = @player.matches.order_by_date
+    # Some columns to sort by are database table columns, some are methods.
+    # The table columns can be ordered at database level. The methods require
+    # the data to be extracted to a Ruby array and sorted from there.
     case sort_column('show')
     when 'date', 'league_id'
       # if Player.column_names.include?(sort_column)
-      @matches = @player.matches.order("#{sort_column('show')} #{sort_direction}")
-    when 'score'
-      @matches = @player.matches.to_a.sort_by { |m| @player.match_score(m) }
+      @matches = @player.matches.order("#{sort_column('show')} #{sort_direction(direction: 'desc')}")
+    when 'match_score', 'seat', 'partner'
+      @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
       @matches.reverse! if sort_direction == 'desc'
     end
   end
@@ -74,7 +76,7 @@ class PlayersController < ApplicationController
     when 'index'
       %w[name alias matches].include?(params[:sort]) ? params[:sort] : 'name'
     when 'show'
-      %w[date score league_id].include?(params[:sort]) ? params[:sort] : 'date'
+      %w[date match_score seat partner league_id].include?(params[:sort]) ? params[:sort] : 'date'
     end
   end
 end

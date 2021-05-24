@@ -10,8 +10,8 @@ class MatchesController < ApplicationController
   # /matches
   def index
     # @matches = Match.all.order_by_date
-    # sort_column and sort_direction are methods (defined below) that sanaitize the params
-    @matches = Match.order("#{sort_column(nil)} #{sort_direction}")
+    # sort_column and sort_direction are methods (defined below) that sanitize the params
+    @matches = Match.order("#{sort_column(nil)} #{sort_direction(direction: 'desc')}")
   end
 
   # /matches/1

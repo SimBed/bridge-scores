@@ -15,4 +15,8 @@ class Match < ApplicationRecord
     # find_by returns nil rather than error if no match
     Player.find_by(id: RelPlayerMatch.find_by(match_id: id, seat: seat)&.player_id)&.name.presence || '----'
   end
+
+  def players
+    Player.joins(:rel_player_matches).where("rel_player_matches.match_id=#{id}").map(&:name)
+  end
 end

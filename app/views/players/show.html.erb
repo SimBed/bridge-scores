@@ -4,24 +4,24 @@
 </p>
 
 <p>
-  <strong>Bridge Alias:</strong>
+  <strong>Alias:</strong>
   <%= @player.alias %>
 </p>
 
 <%= link_to 'Back', players_path %>
 <hr>
 
-<h3>Matches</h3>
+<h5>Matches</h5>
 
 <table>
   <thead>
     <tr>
-      <th><%= sortable(column: "date", view: "show") %></th>
-      <th><%= sortable(column: "score", view: "show") %><small> (player)</small></th>
-      <th>N-S</th>
-      <th>N-S</th>
-      <th>E-W</th>
-      <th>E-W</th>
+      <th><%= sortable(column: "date", view: "show", direction: 'desc') %></th>
+      <th><%= sortable(column: "match_score", coltitle: 'Score', view: "show") %></th>
+      <th><%= sortable(column: "seat", view: "show") %></th>
+      <th><%= sortable(column: "partner", view: "show") %></th>
+      <th>Opp1</th>
+      <th>Opp2</th>
       <th><%= sortable(column: "league_id", coltitle: "League", view: "show") %></th>
     </tr>
   </thead>
@@ -31,8 +31,12 @@
       <tr>
         <td><%= match.date.strftime('%d/%m/%y') %></td>
         <td><%= @player.match_score(match) %></td>
+        <td><%= @player.seat(match) %></td>
+        <td><%= @player.partner(match) %></td>
+        <td><%= @player.opponents(match)[0] %></td>
+        <td><%= @player.opponents(match)[1] %></td>
         <% (0..3).each do |i| %>
-          <td><%= match.players[i].try(:name) %></td>
+          <!--td><%#= match.players[i].try(:name) %></td-->
         <% end %>
         <td><%= link_to match.league.name, match.league %></td>
       </tr>

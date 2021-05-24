@@ -47,6 +47,15 @@ class Player < ApplicationRecord
     partner_code = { north: 'south', south: 'north', east: 'west', west: 'east' }
     r = RelPlayerMatch.find_by(match_id: match.id, player_id: id)
     partner_id = RelPlayerMatch.find_by(match_id: match.id, seat: partner_code[r.seat.to_sym]).player_id
-    Player.find(partner_id).name
+    Player.find(partner_id).alias
+  end
+
+  def opponents(match)
+    match.players.difference([name, Player.find_by(alias: partner(match)).name])
+  end
+
+  # return the seat of the player for the given match
+  def seat(match)
+    RelPlayerMatch.find_by(match_id: match.id, player_id: id)&.seat&.capitalize&.at(0)
   end
 end
