@@ -18,8 +18,8 @@
         <td><%= link_to player.name, player %></td>
         <td><%= player.alias %></td>
         <td><%= player.matches.count %></td>
-        <td class="ago"><%= time_ago_in_words(player.matches.order_by_date.last&.date) + ' ago' unless player.matches.order_by_date.last&.date.blank? %></td>
-        <td class="ago"><%= time_ago_in_words(player.matches.order_by_date.first&.date) + ' ago' unless player.matches.order_by_date.first&.date.blank? %></td>
+        <td class="ago"><%= time_ago(player.matches.order_by_date.last&.date) %></td>
+        <td class="ago"><%= time_ago(player.matches.order_by_date.first&.date) %></td>
         <!--td><%#= player.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
         <!-- td><%#= player.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
         <% if user_signed_in? %>

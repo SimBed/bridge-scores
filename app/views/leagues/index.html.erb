@@ -18,8 +18,8 @@
         <td><%= link_to league.name, league %></td>
         <td class="pr-3 pr-md-5 text-center"><%= league.matches.count %></td>
         <td class="pr-3 pr-md-5 text-center"><%= league.players.count %></td>
-        <td class="ago"><%= time_ago_in_words(league.matches.order_by_date.last&.date) + ' ago' unless league.matches.order_by_date.last&.date.blank? %></td>
-        <td class="ago"><%= time_ago_in_words(league.matches.order_by_date.first&.date) + ' ago' unless league.matches.order_by_date.first&.date.blank? %></td>
+        <td class="ago"><%= time_ago(league.matches.order_by_date.last&.date) %></td>
+        <td class="ago"><%= time_ago(league.matches.order_by_date.first&.date) %></td>
         <!--td><%#= league.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
         <!--td><%#= league.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
         <td><%= link_to 'Show', league %></td>

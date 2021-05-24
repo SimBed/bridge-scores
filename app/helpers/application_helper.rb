@@ -18,4 +18,17 @@ module ApplicationHelper
 
     'asc'
   end
+
+  def time_ago(time)
+    return '-' if time.blank?
+    return 'today' if parse_time(time) == Time.zone.today
+    return 'yesterday' if parse_time(time) == Time.zone.yesterday
+
+    # actual time not recorded, default time to 22.00
+    "#{time_ago_in_words(time + 60 * 60 * 22)} ago"
+  end
+
+  def parse_time(time)
+    Date.new(time.year, time.month, time.day)
+  end
 end
