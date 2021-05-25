@@ -1,0 +1,31 @@
+<table id = "players_table">
+  <thead>
+    <tr>
+      <th><%= sortable(column: "name", view: "index") %></th>
+      <th class="pr-3 pr-md-5"><%= sortable(column: "alias", view: "index") %></th>
+      <th class="pr-3 pr-md-5"><%= sortable(column: "matches", view: "index") %></th>
+      <th class="pr-3 pr-md-5">First Match</th>
+      <th>Last Match</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @players.each do |player| %>
+      <tr>
+        <td><%= link_to player.name, player %></td>
+        <td><%= player.alias %></td>
+        <td><%= player.matches.count %></td>
+        <td class="ago"><%= time_ago(player.matches.order_by_date.last&.date) %></td>
+        <td class="ago"><%= time_ago(player.matches.order_by_date.first&.date) %></td>
+        <!--td><%#= player.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
+        <!-- td><%#= player.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
+        <% if user_signed_in? %>
+          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_player_path(player) %></td>
+          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>

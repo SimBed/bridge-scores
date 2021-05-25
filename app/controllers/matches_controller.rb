@@ -12,6 +12,10 @@ class MatchesController < ApplicationController
     # @matches = Match.all.order_by_date
     # sort_column and sort_direction are methods (defined below) that sanitize the params
     @matches = Match.order("#{sort_column(nil)} #{sort_direction(direction: 'desc')}")
+    respond_to do |format|
+       format.html
+       format.js
+    end
   end
 
   # /matches/1

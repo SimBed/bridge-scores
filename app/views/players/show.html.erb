@@ -12,34 +12,4 @@
 <hr>
 
 <h5>Matches</h5>
-
-<table>
-  <thead>
-    <tr>
-      <th><%= sortable(column: "date", view: "show", direction: 'desc') %></th>
-      <th><%= sortable(column: "match_score", coltitle: 'Score', view: "show") %></th>
-      <th><%= sortable(column: "seat", view: "show") %></th>
-      <th><%= sortable(column: "partner", view: "show") %></th>
-      <th>Opp1</th>
-      <th>Opp2</th>
-      <th><%= sortable(column: "league_id", coltitle: "League", view: "show") %></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
-      <tr>
-        <td><%= match.date.strftime('%d/%m/%y') %></td>
-        <td><%= @player.match_score(match) %></td>
-        <td><%= @player.seat(match) %></td>
-        <td><%= @player.partner(match) %></td>
-        <td><%= @player.opponents(match)[0] %></td>
-        <td><%= @player.opponents(match)[1] %></td>
-        <% (0..3).each do |i| %>
-          <!--td><%#= match.players[i].try(:name) %></td-->
-        <% end %>
-        <td><%= link_to match.league.name, match.league %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render partial: 'matches_table' %>

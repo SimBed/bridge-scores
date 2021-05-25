@@ -12,6 +12,10 @@ class PlayersController < ApplicationController
                  # @players = Player.all.to_a.sort_by { |p| p.matches.count }
                  # @players.reverse! if sort_direction == 'desc'
                end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
@@ -25,6 +29,10 @@ class PlayersController < ApplicationController
     when 'match_score', 'seat', 'partner'
       @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
       @matches.reverse! if sort_direction == 'desc'
+    end
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 

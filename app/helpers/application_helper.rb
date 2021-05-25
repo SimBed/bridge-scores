@@ -10,7 +10,7 @@ module ApplicationHelper
     if column == sort_column(view) && sort_direction(direction: direction) == direction
       direction = opp_direction(direction)
     end
-    link_to coltitle, { sort: column, direction: direction }, { class: css_class }
+    link_to coltitle, { sort: column, direction: direction }, { class: css_class, remote: true }
   end
 
   def opp_direction(direction)

@@ -1,46 +1,5 @@
 <h5>Matches</h5>
-
-<table>
-  <thead>
-    <tr>
-      <!-- sortable is a method in helpers/application_helpers providing a link_to with sor and direction params-->
-      <th><%= sortable(column: 'date', direction: 'desc') %></th>
-      <th class="pr-2 pr-md-5"><%= sortable(column: 'score') %> <small>(N-S)</small></th>
-      <th>N-S</th>
-      <th>N-S</th>
-      <th>E-W</th>
-      <th>E-W</th>
-      <th><%= sortable(column: 'league_id', coltitle: 'League') %></th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
-      <tr>
-        <td><%= match.date.strftime('%d/%m/%y') %></td>
-        <td><%= match.score %></td>
-        <% %w[north south east west].each do |seat| %>
-          <td><%= match.player(seat) %></td>
-        <% end %>
-        <td><%= link_to match.league.name, match.league %> </td>
-
-        <%# (0..3).each do |i| %>
-        <!-- re-engineering who played in which seat
-        would be easier to retain the seats in the Match table. Note booleans fail as a sort_by argument-->
-          <!--td><%#= match.players.to_a.sort_by{ |p| RelPlayerMatch.find_by(match_id:match.id,player_id:p.id).result == match.score ? 0 : 1 }[i].try(:name) %></td-->
-        <%# end %>
-
-        <% if user_signed_in? %>
-          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_match_path(match) %></td>
-          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<%= render partial: 'matches_table' %>
 <br>
-
 <!-- allow non-admin to add match -->
-  <%= link_to 'New Match', new_match_path %>
+<%= link_to 'New Match', new_match_path %>
