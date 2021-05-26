@@ -25,10 +25,8 @@ class PlayersController < ApplicationController
       # if Player.column_names.include?(sort_column)
       @matches = @player.matches.order("#{sort_column('show')} #{sort_direction(direction: 'desc')}")
     when 'match_score', 'seat', 'partner'
-      @matches = @player.matches.to_a.sort_by do |m|
-        @player.send(sort_column('show'), m) * -1 if sort_direction == 'desc'
-      end
-      # @matches.reverse! if sort_direction == 'desc'
+      @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
+      @matches.reverse! if sort_direction == 'desc'
     end
     ajax_respond
   end
@@ -91,5 +89,4 @@ class PlayersController < ApplicationController
       format.js
     end
   end
-
 end
