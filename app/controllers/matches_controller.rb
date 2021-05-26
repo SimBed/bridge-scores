@@ -13,8 +13,8 @@ class MatchesController < ApplicationController
     # sort_column and sort_direction are methods (defined below) that sanitize the params
     @matches = Match.order("#{sort_column(nil)} #{sort_direction(direction: 'desc')}")
     respond_to do |format|
-       format.html
-       format.js
+      format.html
+      format.js
     end
   end
 

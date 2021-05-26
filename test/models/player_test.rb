@@ -79,4 +79,12 @@ class PlayerTest < ActiveSupport::TestCase
     assert_equal 'kdskds', @player4.partner(@match1)
     assert_equal 'thecactus', @player6.partner(@match3)
   end
+
+  test 'opponents' do
+    assert_equal ['Andy','Martin'], @player4.opponents(@match1)
+  end
+
+  test 'seat' do
+    assert_equal 'W', @player4.seat(@match1)
+  end
 end

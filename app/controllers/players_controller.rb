@@ -9,8 +9,6 @@ class PlayersController < ApplicationController
                  Player.order("#{sort_column('index')} #{sort_direction}")
                else
                  Player.left_joins(:matches).group(:id).order("count(matches.id) #{sort_direction}")
-                 # @players = Player.all.to_a.sort_by { |p| p.matches.count }
-                 # @players.reverse! if sort_direction == 'desc'
                end
     respond_to do |format|
       format.html
@@ -27,13 +25,12 @@ class PlayersController < ApplicationController
       # if Player.column_names.include?(sort_column)
       @matches = @player.matches.order("#{sort_column('show')} #{sort_direction(direction: 'desc')}")
     when 'match_score', 'seat', 'partner'
-      @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
-      @matches.reverse! if sort_direction == 'desc'
+      @matches = @player.matches.to_a.sort_by do |m|
+        @player.send(sort_column('show'), m) * -1 if sort_direction == 'desc'
+      end
+      # @matches.reverse! if sort_direction == 'desc'
     end
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    ajax_respond
   end
 
   def new
@@ -87,4 +84,12 @@ class PlayersController < ApplicationController
       %w[date match_score seat partner league_id].include?(params[:sort]) ? params[:sort] : 'date'
     end
   end
+
+  def ajax_respond
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
 end
