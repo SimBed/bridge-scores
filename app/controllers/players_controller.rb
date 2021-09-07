@@ -10,10 +10,7 @@ class PlayersController < ApplicationController
                else
                  Player.left_joins(:matches).group(:id).order("count(matches.id) #{sort_direction}")
                end
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    ajax_respond
   end
 
   def show

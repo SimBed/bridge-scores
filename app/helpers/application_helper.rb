@@ -1,11 +1,12 @@
 module ApplicationHelper
   def sortable(column:, coltitle: nil, view: nil, direction: 'asc')
-    # e.g. 'name'.titleize  => "Name"
-    # use a specified column title (if given) or else use the name of the database
+    # for the table headers, use a specified column title - 'coltitle' (if given) or else use the given name of the database column -'column'
     # column formatted as a title ('titleized')
     # keyword arguments used
+    # e.g. 'name'.titleize  => "Name"
     coltitle ||= column.titleize
-    # sort_colum and sort_direction are private methods of the controller
+    # sort_colum is a private method of the controller
+    # sort_direction is a method of the application controller
     css_class = column == sort_column(view) ? "current #{sort_direction(direction: direction)}" : 'notcurrent'
     if column == sort_column(view) && sort_direction(direction: direction) == direction
       direction = opp_direction(direction)

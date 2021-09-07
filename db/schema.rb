@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102719) do
   create_table "rel_player_matches", force: :cascade do |t|
     t.integer "player_id"
     t.integer "match_id"
+    t.float "result"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "seat"
