@@ -27,10 +27,12 @@ class MatchesController < ApplicationController
     # default dropdown selections
     # the & before the method checks for nil before calling the method (returning nil if nil)
     # protects against failure if there are less than 4 players for example if one has been deleted
-    @player_n = Player.limit(4)[0]&.id
-    @player_s = Player.limit(4)[1]&.id
-    @player_e = Player.limit(4)[2]&.id
-    @player_w = Player.limit(4)[3]&.id
+    @player_n = Player.find(4)
+    @player_s = Player.find(4)
+    @player_e = Player.last
+    @player_w = Player.last
+    # @player_e = Player.limit(4)[2]&.id
+    # @player_w = Player.limit(4)[3]&.id
   end
 
   # /matches/1/edit

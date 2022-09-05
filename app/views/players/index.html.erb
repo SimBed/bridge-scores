@@ -1,6 +1,6 @@
 <h5>Players</h5>
-<%= render partial: 'players_table' %>
-<br>
 <% if user_signed_in? %>
   <%= link_to 'New Player', new_player_path %>
 <% end %>
+<%= render partial: 'players_table' %>
+<br>
