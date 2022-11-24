@@ -8,7 +8,11 @@ class LeaguesController < ApplicationController
 
   def show
     # @players = Player.all.to_a.sort_by(&:position)
-    @players = League.find(params[:id]).players.to_a.sort_by { |p| p.position(League.find(params[:id])) }
+    league = League.find(params[:id])
+    players = league.players.to_a
+    # p_ord=players.map {|p| p.position(league)}
+    # @players = players.sort_by &p_ord.method(:index)
+    @players = players.sort_by { |p| -p.score(league) }
     # e.g. [["SimKann", 1, {"data-showurl"=>"http://localhost:3000/leagues/1"}],
     #        ["MonNight", 2, {"data-showurl"=>"http://localhost:3000/leagues/2"}]]
     @leagues = League.all.map { |l| [l.name, l.id, { 'data-showurl' => league_url(l.id) }] }

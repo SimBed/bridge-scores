@@ -19,9 +19,10 @@ class Player < ApplicationRecord
   def score(league)
     score = 0
     rels_to_league = rel_player_matches.joins('INNER JOIN matches on rel_player_matches.match_id=matches.id')
-                                       .where("league_id=#{league.id}")
+                                       .where("league_id=#{league.id}").includes(:match)
     rels_to_league.each do |r|
-      score += Match.find(r.match_id).score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
+      score += r.match.score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
+      # score += Match.find(r.match_id).score * (r.seat == 'north' || r.seat == 'south' ? 1 : -1)
     end
     score.round(2)
   end
