@@ -13,16 +13,16 @@
   <tbody>
     <% @players.each do |player| %>
       <tr>
-        <td><%= link_to player.name, player %></td>
-        <td><%= player.alias %></td>
-        <td><%= player.matches.count %></td>
-        <td class="ago"><%= time_ago(player.matches.order_by_date.last&.date) %></td>
-        <td class="ago"><%= time_ago(player.matches.order_by_date.first&.date) %></td>
+        <td><%= link_to player['name'], player_path(player['id']) %></td>
+        <td><%= player['alias'] %></td>
+        <td><%= player['matches'] %></td>
+        <td class="ago"><%= time_ago(player['min']) %></td>
+        <td class="ago"><%= time_ago(player['max']) %></td>
         <!--td><%#= player.matches.order_by_date.last&.date&.strftime('%d/%m/%y') %></td-->
         <!-- td><%#= player.matches.order_by_date.first&.date&.strftime('%d/%m/%y') %></td-->
         <% if user_signed_in? %>
-          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_player_path(player) %></td>
-          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td class="pl-3 pl-md-5"><%= link_to image_tag("Edit.png", class: "edit_icon"), edit_player_path(player['id']) %></td>
+          <td class="pl-md-3"><%= link_to image_tag("Delete.png", class: "edit_icon"), player_path(player['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
 
       </tr>

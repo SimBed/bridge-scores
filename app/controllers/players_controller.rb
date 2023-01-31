@@ -3,13 +3,17 @@ class PlayersController < ApplicationController
   before_action :admin_user, only: %i[new create edit update destroy]
   before_action :set_player, only: %i[show edit update destroy]
 
+  # def index
+  #   # @players = Player.order_by_name
+  #   @players = if Player.column_names.include?(sort_column('index'))
+  #                Player.includes(:rel_player_matches, :matches).order("#{sort_column('index')} #{sort_direction}")
+  #              else
+  #                Player.left_joins(:matches).group(:id).order("count(matches.id) #{sort_direction}")
+  #              end
+  #   ajax_respond
+  # end
   def index
-    # @players = Player.order_by_name
-    @players = if Player.column_names.include?(sort_column('index'))
-                 Player.order("#{sort_column('index')} #{sort_direction}")
-               else
-                 Player.left_joins(:matches).group(:id).order("count(matches.id) #{sort_direction}")
-               end
+    @players = Player.match_history(sort_column('index'), sort_direction)
     ajax_respond
   end
 

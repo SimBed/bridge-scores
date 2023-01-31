@@ -5,6 +5,17 @@ class Player < ApplicationRecord
   validates :alias, presence: true, length: { maximum: 20 }, uniqueness: { case_sensitive: false }
   scope :order_by_name, -> { order(name: :asc) }
 
+  
+  def self.match_history(sort_column, sort_direction)
+    sql = "SELECT players.id, players.name, players.alias, COUNT(matches.date) as matches, MAX(matches.date), MIN(matches.date)
+           FROM players 
+           INNER JOIN rel_player_matches on players.id = rel_player_matches.player_id
+           INNER JOIN matches on rel_player_matches.match_id = matches.id
+           GROUP BY players.id
+           ORDER BY #{sort_column} #{sort_direction};"
+    ActiveRecord::Base.connection.exec_query(sql)
+  end
+
   def leagues
     League.joins("INNER JOIN matches on leagues.id = matches.league_id
          INNER JOIN rel_player_matches on matches.id = rel_player_matches.match_id
