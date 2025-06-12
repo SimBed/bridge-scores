@@ -8,12 +8,12 @@ default: &default
 
 development:
   <<: *default
-  database: bridge_development
+  database: bridge-scores-development
 
 test:
   <<: *default
-  database: bridge_test
+  database: bridge-scores-test
 
 production:
   <<: *default
-  database: bridge_production
+  database: bridge-scores-production

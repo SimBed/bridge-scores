@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'concurrent-ruby', '1.3.4'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
